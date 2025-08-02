@@ -1,4 +1,58 @@
+# Archivos de entorno y configuración sensible
 .env
-.venv
-.vscode
 .env.docker
+.env.example
+
+# Entornos virtuales
+.venv/
+env/
+venv/
+myenv/ # O cualquier otro nombre que uses para tu entorno virtual
+
+# Archivos de Python generados
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos de base de datos local
+db.sqlite3
+*.sqlite3
+
+# Archivos de medios y estáticos (si los gestionas localmente y no quieres subirlos)
+media/ # Es común tener una carpeta 'media' para subidas de usuario
+static_collected/ # Si usas collectstatic
+
+# Archivos de IDEs (como VS Code)
+.vscode/ # Para ignorar las configuraciones específicas de tu editor
+.idea/ # Para PyCharm/IntelliJ
+
+# Archivos de sistema operativo
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Archivos de imágenes temporales/capturas de pantalla (si aplica)
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Posibles carpetas específicas de tu proyecto que podrían ser generadas/temporales
+app/     # <-- ¡Solo ignora esta si es una carpeta de archivos temporales/generados!
+assets/  # <-- ¡Solo ignora esta si es una carpeta de archivos temporales/generados!
