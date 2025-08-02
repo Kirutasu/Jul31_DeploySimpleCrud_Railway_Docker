@@ -46,9 +46,3 @@ static_collected/ # Si usas collectstatic
 # Archivos de sistema operativo
 .DS_Store # macOS
 Thumbs.db # Windows
-
-# Archivos de imágenes temporales/capturas de pantalla (si aplica)
-*.png
-*.jpg
-*.jpeg
-*.gif
