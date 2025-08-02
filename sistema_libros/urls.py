@@ -1,5 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include, redirect
+from django.urls import path, include
+from django.shortcuts import redirect # <--- ¡Cambiado!
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
