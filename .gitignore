@@ -52,7 +52,3 @@ Thumbs.db # Windows
 *.jpg
 *.jpeg
 *.gif
-
-# Posibles carpetas específicas de tu proyecto que podrían ser generadas/temporales
-app/     # <-- ¡Solo ignora esta si es una carpeta de archivos temporales/generados!
-assets/  # <-- ¡Solo ignora esta si es una carpeta de archivos temporales/generados!
