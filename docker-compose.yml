@@ -8,26 +8,27 @@ services:
   web:
     # Construye la imagen usando el Dockerfile en el directorio actual (.)
     build: .
+    container_name: crud-django_rest_framework-web-1
+    command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     
     # Mapeo de puertos: puerto_host:puerto_contenedor
     # Puerto 8000 de tu máquina → Puerto 8010 del contenedor
     ports:
-      - "8000:8010"
+      - "8000:8000"
     
     # Monta volúmenes: directorio_host:directorio_contenedor
     # El directorio actual (.) se monta en /app dentro del contenedor
     # Permite ver cambios en tiempo real sin reconstruir la imagen
     volumes:
       - .:/app
-    
+  
     # Variables de entorno que estarán disponibles dentro del contenedor
     environment:
-      - DEBUG=1                    # Activa el modo debug de Django
-      - DB_NAME=${DB_NAME}         # Nombre de la base de datos (desde .env.docker)
-      - DB_USER=${DB_USER}         # Usuario de la base de datos (desde .env.docker)
-      - DB_PASSWORD=${DB_PASSWORD} # Contraseña de la base de datos (desde .env.docker)
-      - DB_HOST=db                 # Host de la base de datos (nombre del servicio MySQL)
-      - DB_PORT=3306               # Puerto de MySQL (puerto estándar)
+      DB_HOST: db
+      DB_NAME: railway
+      DB_USER: root
+      DB_PASSWORD: jwVuKCXTDAEQYkZVfGagPMmiTGkKivnh
+      DB_PORT: 3306
     
     # Define dependencias: este servicio espera a que 'db' esté disponible
     depends_on:
@@ -37,16 +38,23 @@ services:
     # Las variables en este archivo estarán disponibles en el contenedor
     env_file:
       - .env.docker
-
+    
+    # Sobrescribe el comando del Dockerfile para esperar a la base de datos
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+  
   # Servicio para la base de datos MySQL
   db:
     # Usa la imagen oficial de MySQL versión 8 desde Docker Hub
     image: mysql:8
     
+    container_name: crud-django_rest_framework-db-1
+
     # Variables de entorno específicas para configurar MySQL
     environment:
-      MYSQL_DATABASE: ${DB_NAME}        # Crea automáticamente esta base de datos
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD} # Establece la contraseña del usuario root
+      # Nombres de variables de entorno de tu .env.docker
+      MYSQL_DATABASE: railway
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: jwVuKCXTDAEQYkZVfGagPMmiTGkKivnh
     
     # Mapeo de puertos para MySQL
     # Puerto 3307 de tu máquina → Puerto 3306 del contenedor

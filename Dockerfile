@@ -42,6 +42,11 @@ RUN apt-get update \
     # MariaDB es compatible con MySQL pero tiene mejores drivers
     # Proporciona una alternativa más moderna para la conexión
     # Muchas veces funciona mejor que las librerías nativas de MySQL
+    # Instala el cliente de MySQL para que pueda usar el comando 'mysql'
+    # Esto es útil para el script de espera de la base de datos
+    default-mysql-client \
+    # Instala netcat-traditional para asegurar que 'nc' funciona
+    netcat-traditional \    
     # Operaciones de limpieza para reducir el tamaño final de la imagen Docker
     && apt-get clean \                 
     # Elimina archivos temporales del gestor de paquetes apt
@@ -55,7 +60,12 @@ RUN apt-get update \
 
 # Copia el archivo requirements.txt desde tu máquina al directorio /app del contenedor
 # El punto (.) significa "directorio actual" dentro del contenedor (/app)
+# y copia el script de inicio
 COPY requirements.txt .
+COPY entrypoint.sh /usr/local/bin/
+
+# Haz el script de inicio ejecutable
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Actualiza pip a la última versión disponible
 RUN pip install --upgrade pip \
@@ -75,4 +85,9 @@ EXPOSE 8000
 # Comando que se ejecutará cuando el contenedor inicie
 # Inicia el servidor de desarrollo de Django en el puerto 8000
 # 0.0.0.0 permite conexiones desde cualquier IP (necesario para Docker)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# ¿Lo borro? CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# Usa el script de inicio como el comando principal
+# El script se encargará de esperar a la base de datos y luego iniciar el servidor
+CMD ["entrypoint.sh"]
+
